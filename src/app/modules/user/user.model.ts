@@ -21,7 +21,8 @@ const userSchema = new Schema<TUser>(
     profileImg: { type: String }, // Optional field
 
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
-    status: { type: String, enum: ['active', 'blocked'], default: 'active' },
+    status: { type: String, enum: ['active', 'inactive'], default: 'active' },
+  
     isDeleted: { type: Boolean, default: false },
   },
   {

@@ -17,6 +17,6 @@ export type TUser = {
   profileImg?: string;
 
   role: 'admin' | 'user';
-  status: 'active' | 'blocked';
+  status: 'active' | 'inactive';
   isDeleted: boolean;
 };
