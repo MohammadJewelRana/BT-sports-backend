@@ -21,3 +21,16 @@ export type TCampaign = {
 
   isDeleted: boolean;
 };
+
+
+export type TExpense = {
+  buyer: string;
+  numberOfBall:number,
+  ballCost:number,
+  numberOfTape:number,
+  tapeCost:number;
+  buyDate: Date;
+  totalCost:number;
+
+  isDeleted: boolean;
+};

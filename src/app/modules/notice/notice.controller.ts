@@ -30,8 +30,36 @@ const getAllNotice = catchAsync(async (req, res) => {
   });
 });
 
+const deleteNotice = catchAsync(async (req, res) => {
+
+  const {id}=req.params;
+  const result = await NoticeServices.deleteNotice( id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Successfully deleted  the notice!!',
+    data: result,
+  });
+});
+
+const updateNotice = catchAsync(async (req, res) => {
+
+  const {id}=req.params;
+  const result = await NoticeServices.updateNotice( id,req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Successfully updated  the notice!!',
+    data: result,
+  });
+});
+
 export const NoticeControllers = {
   createNotice,
-  getAllNotice
+  getAllNotice,
+  deleteNotice,
+  updateNotice
 };
 

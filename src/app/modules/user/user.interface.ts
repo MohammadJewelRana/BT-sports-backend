@@ -9,7 +9,7 @@ export type TUser = {
   name: string;
   profession: string;
 
-  gender: TGender;
+  // gender: TGender;
 
   whatsapp: string;
   address: TAddress;

@@ -74,23 +74,24 @@ const getSingleUser = catchAsync(async (req, res) => {
 
 
 
-// const changeStatus = catchAsync(async (req, res) => {
-//   const id = req.params.id;
+const login = catchAsync(async (req, res) => {
+ 
 
-//   const result = await UserServices.changeStatus(id, req.body);
+  const result = await UserServices.loginIntoDB( req.body);
 
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Status is updated successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: '  successfully logged in !!',
+    data: result,
+  });
+});
 
 export const UserControllers = {
  createUser,
   updateUser,
   deleteUser,
   getAllUser,
-  getSingleUser
+  getSingleUser,
+  login,
 };

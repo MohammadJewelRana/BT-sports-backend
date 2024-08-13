@@ -13,7 +13,7 @@ const userSchema = new Schema<TUser>(
     name: { type: String, required: true },
     profession: { type: String, required: true },
 
-    gender: { type: String, enum: ['male', 'female', 'other'], required: true },
+    // gender: { type: String, enum: ['male', 'female', 'other'], required: true },
 
     whatsapp: { type: String, required: true },
     address: { type: addressSchema, required: true },
