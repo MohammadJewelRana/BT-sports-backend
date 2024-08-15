@@ -20,3 +20,9 @@ export type TUser = {
   status: 'active' | 'inactive';
   isDeleted: boolean;
 };
+
+export type TImage = {
+  image: string;
+
+  isDeleted: boolean;
+};

@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { TAddress, TUser } from './user.interface';
+import { TAddress, TImage, TUser } from './user.interface';
 
 // Address Schema
 const addressSchema = new Schema<TAddress>({
@@ -22,7 +22,18 @@ const userSchema = new Schema<TUser>(
 
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
-  
+
+    isDeleted: { type: Boolean, default: false },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+const imageSchema = new Schema<TImage>(
+  {
+    image: { type: String },
+
     isDeleted: { type: Boolean, default: false },
   },
   {
@@ -31,3 +42,4 @@ const userSchema = new Schema<TUser>(
 );
 
 export const User = model<TUser>('User', userSchema);
+export const Image = model<TImage>('Image', imageSchema);

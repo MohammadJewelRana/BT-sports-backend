@@ -20,6 +20,9 @@ router.delete('/:id', UserControllers.deleteUser);
 
 router.get('/:id', UserControllers.getSingleUser);
 
+router.get('/image/all', UserControllers.getAllImage);
+
+
 router.get('/', UserControllers.getAllUser);
 router.post('/login', UserControllers.login);
 

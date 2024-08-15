@@ -5,10 +5,8 @@ import { catchAsync } from '../../utils/catchAsync';
 import { UserServices } from './user.service';
 
 const createUser = catchAsync(async (req, res) => {
-   
-
   // console.log(req.body);
-  
+
   const result = await UserServices.createUserIntoDB(req.body);
 
   sendResponse(res, {
@@ -19,10 +17,10 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
-const updateUser= catchAsync(async (req, res) => {
- const {id}=req.params;
+const updateUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
 
-  const result = await UserServices.updateUserIntoDB(id,req.body);
+  const result = await UserServices.updateUserIntoDB(id, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -32,8 +30,8 @@ const updateUser= catchAsync(async (req, res) => {
   });
 });
 
-const deleteUser= catchAsync(async (req, res) => {
-  const {  id } = req.params;
+const deleteUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
 
   const result = await UserServices.deleteSingleUser(id);
 
@@ -46,14 +44,23 @@ const deleteUser= catchAsync(async (req, res) => {
 });
 
 const getAllUser = catchAsync(async (req, res) => {
- 
-
   const result = await UserServices.getAllUserFromDB();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: ' All User data retrieved  successfully',
+    data: result,
+  });
+});
+
+const getAllImage = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllImageFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: ' All image data retrieved  successfully',
     data: result,
   });
 });
@@ -70,14 +77,8 @@ const getSingleUser = catchAsync(async (req, res) => {
   });
 });
 
-
-
-
-
 const login = catchAsync(async (req, res) => {
- 
-
-  const result = await UserServices.loginIntoDB( req.body);
+  const result = await UserServices.loginIntoDB(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -88,10 +89,11 @@ const login = catchAsync(async (req, res) => {
 });
 
 export const UserControllers = {
- createUser,
+  createUser,
   updateUser,
   deleteUser,
   getAllUser,
   getSingleUser,
   login,
+  getAllImage
 };

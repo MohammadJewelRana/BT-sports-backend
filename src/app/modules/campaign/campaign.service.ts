@@ -45,61 +45,65 @@ const createCampaignIntoDB = async (payload: TCampaign) => {
 };
 
 const getAllCampaignFromDB = async () => {
-  const result = await Campaign.find();
+  const result = await Campaign.find({ isDeleted: false });
+  // const result = await Campaign.find({isDeleted:false},{sort:{createdAt:-1}});
   return result;
 };
 
-import { ObjectId } from 'mongodb'; // Import ObjectId for conversion
+const updateCampaign = async (campaignId: string, payload) => {
+  console.log(payload);
+  const { status, paidAmount, memberId } = payload;
 
-const updateCampaign = async (
-  campaignId: string,
-  payload: { memberId: string; paidAmount: number },
-) => {
-  const { memberId, paidAmount } = payload;
+  const { ...remainingCampaignData } = payload; //destructure the all object field
 
-  try {
-    // Convert memberId and campaignId to ObjectId
-    const memberObjectId = new ObjectId(memberId);
-    const campaignObjectId = new ObjectId(campaignId);
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingCampaignData,
+  };
+  if (status === 'delete') {
+    modifiedUpdatedData.isDeleted = true;
+    delete modifiedUpdatedData.status;
+  }
 
-    // Retrieve the existing campaign
-    const campaign = await Campaign.findOne({ _id: campaignObjectId });
-    if (!campaign) {
-      throw new Error(`Campaign with ID ${campaignId} not found`);
-    }
-
-    // Check if the member exists in the campaign
-    const memberExists = campaign.members.some(
-      (member) => member.id.toString() === memberObjectId.toString(),
+  if (paidAmount && memberId) {
+    const campaign = await Campaign.findOne({ _id: campaignId }).select(
+      'members',
     );
-    if (!memberExists) {
-      throw new Error(`Member with ID ${memberId} not found in the campaign`);
-    }
 
-    // Update the member's paidAmount in the members array
-    const updatedMembers = campaign.members.map((member) => {
-      if (member.id.toString() === memberObjectId.toString()) {
-        return {
-          ...member,
-          paidAmount: paidAmount,
-          paymentStatus: 'paid', // Optionally update the payment status
-        };
+    campaign?.members?.forEach((member) => {
+      if (member.id.toString() === memberId) {
+        // console.log(member);
+
+        member.paidAmount = paidAmount;
+        member.paymentStatus = paidAmount > 0 ? 'paid' : 'unpaid';
       }
-      return member;
     });
 
-    // Update the campaign with the modified members array
-    const result = await Campaign.findOneAndUpdate(
-      { _id: campaignObjectId },
-      { $set: { members: updatedMembers } }, // Use $set to ensure proper update
-      { new: true }, // Return the updated document
-    );
+    // console.log(campaign?.members);
+    // modifiedUpdatedData.members = campaign?.members;
+    const grandTotal = campaign?.members?.reduce((total, member) => total + member.paidAmount, 0) || 0;
 
-    return result;
-  } catch (error) {
-    console.error('Update Error:', error);
-    throw error;
+    modifiedUpdatedData.members = campaign?.members;
+    modifiedUpdatedData.grandTotal = grandTotal;
+
+
   }
+
+  console.log(modifiedUpdatedData);
+
+  const result = await Campaign.findOneAndUpdate(
+    { _id: campaignId },
+    { $set: modifiedUpdatedData },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to   update campaign  ');
+  }
+  return result;
+
+   
 };
 
 const expenseIntoDB = async (payload: TExpense) => {

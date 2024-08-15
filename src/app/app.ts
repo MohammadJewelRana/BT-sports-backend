@@ -41,7 +41,7 @@ const app: Application = express();
 const corsOptions = {
   origin: [
     'http://localhost:5173', // Localhost for development
-    // 'https://sporting-good-client.vercel.app' // Your Vercel deployed client
+    'https://bt-sports-club.vercel.app' // Your Vercel deployed client
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
@@ -54,6 +54,13 @@ app.use(cors(corsOptions));
 // Handle OPTIONS requests for CORS preflight
 app.options('*', cors(corsOptions));
 
+// Logging middleware for debugging
+app.use((req: Request, res: Response, next) => {
+  console.log('Request headers:', req.headers);
+  console.log('Request origin:', req.get('Origin'));
+  next();
+});
+
 // Parsers
 app.use(express.json());
 app.use(express.text());
@@ -65,7 +72,7 @@ app.use('/api', router);
 // Health check route
 app.get('/', (req: Request, res: Response) => {
   res.json({
-    message: 'Sporting Goods app is running on the server!',
+    message: 'BT sports app is running on the server!',
   });
 });
 
