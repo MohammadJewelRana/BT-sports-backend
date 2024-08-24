@@ -81,12 +81,27 @@ const getAllExpense = catchAsync(async (req, res) => {
   });
 });
 
+
+
+const updateExpense = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CampaignServices.updateExpenseIntoDB(id,req.body );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Successfully updated   Expense!!',
+    data: result,
+  });
+});
+
 export const CampaignControllers = {
   createCampaign,
   getAllCampaign,
   updateCampaign,
   expense,
   expenseDelete,
-  getAllExpense
+  getAllExpense,
+  updateExpense
 };
 

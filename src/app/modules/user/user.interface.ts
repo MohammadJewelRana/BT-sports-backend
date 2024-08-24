@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type TGender = 'male' | 'female' | 'other';
 
 export type TAddress = {
@@ -22,7 +24,9 @@ export type TUser = {
 };
 
 export type TImage = {
-  image: string;
+  userId: Types.ObjectId; 
+    image: string;
+ 
 
   isDeleted: boolean;
 };

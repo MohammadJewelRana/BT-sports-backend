@@ -15,7 +15,7 @@ const userSchema = new Schema<TUser>(
 
     // gender: { type: String, enum: ['male', 'female', 'other'], required: true },
 
-    whatsapp: { type: String, required: true },
+    whatsapp: { type: String, required: true ,unique:true},
     address: { type: addressSchema, required: true },
 
     profileImg: { type: String }, // Optional field
@@ -32,7 +32,9 @@ const userSchema = new Schema<TUser>(
 
 const imageSchema = new Schema<TImage>(
   {
+    userId: { type: Schema.Types.ObjectId, required: true ,ref:'Users'},
     image: { type: String },
+     
 
     isDeleted: { type: Boolean, default: false },
   },

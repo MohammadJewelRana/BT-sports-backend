@@ -74,18 +74,20 @@ const updateCampaign = async (campaignId: string, payload) => {
         // console.log(member);
 
         member.paidAmount = paidAmount;
-        member.paymentStatus = paidAmount > 0 ? 'paid' : 'unpaid';
+        member.paymentStatus = paidAmount >= 1 ? 'paid' : 'unpaid';
       }
     });
 
     // console.log(campaign?.members);
     // modifiedUpdatedData.members = campaign?.members;
-    const grandTotal = campaign?.members?.reduce((total, member) => total + member.paidAmount, 0) || 0;
+    const grandTotal =
+      campaign?.members?.reduce(
+        (total, member) => total + member.paidAmount,
+        0,
+      ) || 0;
 
     modifiedUpdatedData.members = campaign?.members;
     modifiedUpdatedData.grandTotal = grandTotal;
-
-
   }
 
   console.log(modifiedUpdatedData);
@@ -102,8 +104,6 @@ const updateCampaign = async (campaignId: string, payload) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to   update campaign  ');
   }
   return result;
-
-   
 };
 
 const expenseIntoDB = async (payload: TExpense) => {
@@ -140,6 +140,26 @@ const getAllExpenseFromDB = async () => {
   const result = await Expense.find({ isDeleted: false }).sort({ buyDate: -1 });
   return result;
 };
+
+const updateExpenseIntoDB = async (userId: string, payload) => {
+  // console.log(payload, userId);
+ 
+  const total = payload?.ballCost + payload?.tapeCost;
+  payload.totalCost = total;
+
+
+
+  const result = await Expense.findByIdAndUpdate(userId, payload, {
+    new: true,
+    runValidators: true,
+  });
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to  update expense  ');
+  }
+
+  return result;
+};
+
 export const CampaignServices = {
   createCampaignIntoDB,
   getAllCampaignFromDB,
@@ -147,4 +167,5 @@ export const CampaignServices = {
   expenseIntoDB,
   expenseDeleteFromDB,
   getAllExpenseFromDB,
+  updateExpenseIntoDB,
 };

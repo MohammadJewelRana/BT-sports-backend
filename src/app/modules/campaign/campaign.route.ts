@@ -12,6 +12,7 @@ router.patch('/:id', CampaignControllers.updateCampaign);
 router.post('/expense', CampaignControllers.expense);
 router.patch('/expense/:id', CampaignControllers.expenseDelete);
 router.get('/expense', CampaignControllers.getAllExpense);
+router.patch('/expense/update/:id', CampaignControllers.updateExpense);
 
 
 
