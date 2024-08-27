@@ -70,6 +70,7 @@ const createBallLostIntoDB = async (payload: TBallLost) => {
       name,
       totalLost: lostBallCount,
       lostDetails: [{ lostDate: lostDate, lostBallCount: lostBallCount }],
+      remaining:lostBallCount
     };
     // console.log(newData);
     const result = await BallLost.create(newData);

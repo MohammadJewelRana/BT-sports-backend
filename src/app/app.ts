@@ -38,10 +38,19 @@ import notFound from './errors/notFound';
 const app: Application = express();
 
 // CORS configuration
+// const corsOptions = {
+//   origin: [
+//     'http://localhost:5173', // Localhost for development
+//     'https://bt-sports-club.vercel.app' // Your Vercel deployed client
+//   ],
+//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+//   credentials: true,
+//   allowedHeaders: ['Content-Type', 'Authorization'], // Include necessary headers
+// };
 const corsOptions = {
   origin: [
-    'http://localhost:5173', // Localhost for development
-    'https://bt-sports-club.vercel.app' // Your Vercel deployed client
+      'http://localhost:5173', // Localhost for development
+      'https://bt-sports-club.vercel.app' // Your Vercel deployed client
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
